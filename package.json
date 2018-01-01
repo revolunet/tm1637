@@ -1,0 +1,15 @@
+{
+  "name": "tm1637",
+  "version": "1.0.0",
+  "author": "Julien Bouquillon <julien@revolunet.com>",
+  "description": "Control a TM1637 4-digits led segments driver using javascript and johnny-five.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revolunet/tm1637.git"
+  },
+  "homepage": "https://revolunet.github.io/tm1637/",
+  "bugs": {
+    "url": "https://github.com/revolunet/tm1637/issues"
+  }
+}
