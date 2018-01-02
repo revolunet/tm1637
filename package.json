@@ -1,6 +1,7 @@
 {
   "name": "tm1637",
   "version": "1.0.0",
+  "main": "src",
   "author": "Julien Bouquillon <julien@revolunet.com>",
   "description": "Control a TM1637 4-digits led segments driver using javascript and johnny-five.",
   "license": "MIT",
