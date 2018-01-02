@@ -1,10 +1,12 @@
 # tm1637.js
 
-Control a 4 digit led segments TM1637 driver using javascript and johnny-five.
+[![](https://img.shields.io/npm/v/tm1637.svg)](https://npmjs.org/package/tm1637) [![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges)
+
+Control a 4 digit led segments TM1637 driver using javascript and [johnny-five](http://johnny-five.io).
 
 ![pic](./tm1637.jpg)
 
-Largely inspired from https://github.com/thesadabc/raspberrypi-tm1637-4display and https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
+Largely inspired from [raspberrypi-tm1637-4display](https://github.com/thesadabc/raspberrypi-tm1637-4display) and [timwaizenegger/raspberrypi-examples](https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py).
 
 ## Install
 
@@ -31,6 +33,9 @@ board.on("ready", () => {
 
   display.show("1234");
 
+  // show all digits separators 1.2.3.4.
+  display.show("1234", true);
+
   board.repl.inject({
     display
   });
@@ -42,6 +47,6 @@ board.on("ready", () => {
 
 ## Related
 
+ - [TM1637 english datasheet](./datasheet-en.pdf)
  - https://github.com/thesadabc/raspberrypi-tm1637-4display
  - https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
- -
