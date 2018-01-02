@@ -1,6 +1,6 @@
 {
   "name": "tm1637",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src",
   "author": "Julien Bouquillon <julien@revolunet.com>",
   "description": "Control a TM1637 4-digits led segments driver using javascript and johnny-five.",
@@ -13,5 +13,9 @@
   "bugs": {
     "url": "https://github.com/revolunet/tm1637/issues"
   },
-  "tags": ["johhny-five", "segments", "tm1637"]
+  "tags": [
+    "johhny-five",
+    "segments",
+    "tm1637"
+  ]
 }
