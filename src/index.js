@@ -29,8 +29,6 @@ codigitToSegment = [
   0b01110001 // F 0x71
 ];
 
-const LOOP_TIMEOUT = 1; // in ms
-
 const ADDR_AUTO = 0x40; // 0b01000000
 const STARTADDR = 0xc0; // 0b11000000
 const BRIGHTNESS = 0.5;
@@ -65,19 +63,28 @@ class TM1637Display {
         this.board.digitalRead(act[1], act[2]);
       }
     }
-    setTimeout(this.startLoop, LOOP_TIMEOUT);
+    if (this.q.length) {
+      setImmediate(this.startLoop);
+    }
+  }
+
+  enqueue(data) {
+    this.q.push(data);
+    if (this.q.length === 1) {
+      this.startLoop();
+    }
   }
 
   high(pin) {
-    this.q.push(["o", pin, this.trueValue]);
+    this.enqueue(["o", pin, this.trueValue]);
   }
 
   low(pin) {
-    this.q.push(["o", pin, 1 - this.trueValue]);
+    this.enqueue(["o", pin, 1 - this.trueValue]);
   }
 
   read(pin) {
-    return new Promise(resolve => this.q.push(["i", pin, resolve]));
+    return new Promise(resolve => this.enqueue(["i", pin, resolve]));
   }
 
   // clock high in, high out
