@@ -1,4 +1,4 @@
-// inspired from https://github.com/thesadabc/raspberrypi-tm1637-4display and https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
+// copied and adapted from https://github.com/thesadabc/raspberrypi-tm1637-4display and https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
 
 //
 //      A
@@ -29,18 +29,14 @@ codigitToSegment = [
   0b01110001 // F 0x71
 ];
 
-const LOOP_TIMEOUT = 10; // in ms
+const LOOP_TIMEOUT = 1; // in ms
 
 const ADDR_AUTO = 0x40; // 0b01000000
 const STARTADDR = 0xc0; // 0b11000000
-const BRIGHTNESS = 1.0;
-
-const SEPARATORS = [
-  0b10000000 // 0x80
-];
+const BRIGHTNESS = 0.5;
 
 class TM1637Display {
-  constructor({ clk, dio, board }) {
+  constructor({ clk, dio, board, brightness = BRIGHTNESS }) {
     this.pinClk = clk;
     this.pinDIO = dio;
     this.board = board;
@@ -52,27 +48,24 @@ class TM1637Display {
     this.board.pinMode(this.pinDIO, this.board.MODES.OUTPUT);
     this.high(this.pinClk);
     this.high(this.pinDIO);
+    this.startLoop = this.startLoop.bind(this);
+    this.startLoop();
   }
 
   startLoop() {
-    let q = this.q;
-    (function loop() {
-      let act = q.shift();
-      if (act) {
-        if (act[0] === "o") {
-          this.board.pinMode(act[1], this.board.MODES.OUTPUT);
-          //console.log("digitalWrite", act);
-          this.board.digitalWrite(act[1], act[2]);
-        } else if (act[0] === "i") {
-          this.board.pinMode(act[1], this.board.MODES.INPUT);
-          //console.log("digitalRead", act);
-          this.board.digitalRead(act[1], act[2]);
-        }
+    let act = this.q.shift();
+    if (act) {
+      if (act[0] === "o") {
+        this.board.pinMode(act[1], this.board.MODES.OUTPUT);
+        //console.log("digitalWrite", act);
+        this.board.digitalWrite(act[1], act[2]);
+      } else if (act[0] === "i") {
+        this.board.pinMode(act[1], this.board.MODES.INPUT);
+        //console.log("digitalRead", act);
+        this.board.digitalRead(act[1], act[2]);
       }
-      if (q.length) {
-        setTimeout(loop, LOOP_TIMEOUT);
-      }
-    })();
+    }
+    setTimeout(this.startLoop, LOOP_TIMEOUT);
   }
 
   high(pin) {
@@ -140,14 +133,19 @@ class TM1637Display {
     this.high(this.pinDIO);
   }
 
-  show(str) {
-    this.sendData(("" + str).split(""));
-  }
-
-  sendData(nums, split = false) {
-    this.startLoop.bind(this);
-    let numsEncoded = [0, 0, 0, 0].map((u, i) => codigitToSegment[nums[i]] || 0);
-    if (split) numsEncoded[1] = numsEncoded[1] | SEPARATORS[0]; // the x of 2nd pos
+  show(str, split = false) {
+    let numsEncoded = str
+      .split("")
+      .reduce((acc, num) => {
+        if (num === ".") {
+          // show point for previous number if needed
+          acc[acc.length - 1] |= 0b10000000;
+        } else {
+          acc.push(codigitToSegment[num] || 0);
+        }
+        return acc;
+      }, [])
+      .filter((_, i) => i < 4);
 
     this.start(); // Data command set
     this.writeByte(ADDR_AUTO); // Normal mode, automatic address increase, write data to the display register

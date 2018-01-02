@@ -31,10 +31,7 @@ board.on("ready", () => {
     board: board
   })
 
-  display.show("1234");
-
-  // show all digits separators 1.2.3.4.
-  display.show("1234", true);
+  display.show("1.4.52");
 
   board.repl.inject({
     display
