@@ -8,6 +8,8 @@ Control a 4 digit led segments TM1637 driver using javascript and [johnny-five](
 
 Largely inspired from [raspberrypi-tm1637-4display](https://github.com/thesadabc/raspberrypi-tm1637-4display) and [timwaizenegger/raspberrypi-examples](https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py).
 
+Tested with a 4 digits, 4 decimal points tm1637 display from catalex.
+
 ## Install
 
 `npm i tm1637`
@@ -31,7 +33,7 @@ board.on("ready", () => {
     board: board
   })
 
-  display.show("1.4.52");
+  display.show("3.142");
 
   board.repl.inject({
     display

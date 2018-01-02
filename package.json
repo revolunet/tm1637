@@ -11,5 +11,6 @@
   "homepage": "https://revolunet.github.io/tm1637/",
   "bugs": {
     "url": "https://github.com/revolunet/tm1637/issues"
-  }
+  },
+  "tags": ["johhny-five", "segments", "tm1637"]
 }
