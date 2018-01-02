@@ -134,7 +134,7 @@ class TM1637Display {
   }
 
   show(str) {
-    let numsEncoded = str
+    let numsEncoded = ("" + str)
       .split("")
       .reduce((acc, num) => {
         if (num === ".") {
