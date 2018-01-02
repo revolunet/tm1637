@@ -133,7 +133,7 @@ class TM1637Display {
     this.high(this.pinDIO);
   }
 
-  show(str, split = false) {
+  show(str) {
     let numsEncoded = str
       .split("")
       .reduce((acc, num) => {
